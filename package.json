@@ -1,0 +1,25 @@
+{
+  "name": "airball-architect-sim",
+  "version": "1.0.0",
+  "scripts": {
+    "seed": "tsx server/src/db/seed.ts",
+    "test:sim": "tsx server/src/testSim.ts",
+    "dev": "tsx watch server/src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "@types/pg": "^8.18.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  }
+}
+
