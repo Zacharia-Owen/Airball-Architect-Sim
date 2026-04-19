@@ -1,4 +1,4 @@
-improt { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { runGameSimulation } from "../simulation/RunGameSim"
 import { getGameById, getGameResult, getAllTeams, getPlayerById, getTeamWithPlayers, saveGameResult } from "../db/gameRepository";
 
@@ -65,7 +65,7 @@ export async function getGameResultController(req: Request, res: Response) {
             return;
         }
 
-        res,json({
+        res.json({
             gameID: game.id,
             homeTeamId: game.home_team_id,
             awayTeamId: game.away_team_id,
