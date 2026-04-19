@@ -1,4 +1,4 @@
-import { Rating } from "./Rating";
+import { Rating } from "./Ratings";
 
 export type Position = "PG" | "SG" | "SF" | "PF" | "C";
 
