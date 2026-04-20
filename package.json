@@ -5,8 +5,8 @@
     "seed": "tsx server/src/db/seed.ts",
     "test:sim": "tsx server/src/testSim.ts",
     "dev": "tsx watch server/src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "build": "tsc -p server/tsconfig.json",
+    "start": "node server/dist/index.js"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

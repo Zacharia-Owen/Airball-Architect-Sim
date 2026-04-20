@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { runGameSimulation } from "../simulation/RunGameSim"
+import { runGameSimulation } from "../simulation/runGameSim"
 import { getGameById, getGameResult, getAllTeams, getPlayerById, getTeamWithPlayers, saveGameResult } from "../db/gameRepository";
 
 export async function simulateGameController(req: Request, res: Response) {

@@ -3,7 +3,7 @@ import { simulateGameController, getGameResultController, getAllTeamsController,
 
 const router = Router();
 
-// simulate a game
+// simulate game route
 router.post('/simulate', simulateGameController);
 
 // get all teams route

@@ -1,6 +1,6 @@
 import { Team } from "../domain/Team";
-import { GameState } from "../domain/GameStates";
-import { simulatePossession } from "../engine/SimulatePossession";
+import { GameState } from "../domain/GameState";
+import { simulatePossession } from "../engine/simulatePossession";
 import { SeededRNG } from "../engine/rng/SeedRNG";
 import { SIM, STAMINA, GAME } from "../config/constants";
 
