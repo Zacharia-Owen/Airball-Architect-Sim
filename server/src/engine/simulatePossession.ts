@@ -1,7 +1,7 @@
-import { GameState } from "../domain/GameStates";
+import { GameState } from "../domain/GameState";
 import { SeededRNG } from "./rng/SeedRNG";
-import { chooseAction } from "./actions/ChooseActions";
-import { resolvePossession } from "./resolution/ResolvePossession";
+import { chooseAction } from "./actions/chooseActions";
+import { resolvePossession } from "./resolution/resolvePossession";
 import { GAME, STAMINA } from "../config/constants";
 
 export function simulatePossession(

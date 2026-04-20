@@ -1,4 +1,4 @@
-import { GameState } from "../../domain/GameStates";
+import { GameState } from "../../domain/GameState";
 import { SeededRNG } from "../rng/SeedRNG";
 import { SHOT_TYPES } from "../../config/constants";
 

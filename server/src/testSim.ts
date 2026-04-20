@@ -1,6 +1,6 @@
-import { GameState } from "../domain/GameState";
-import { Team } from "../domain/Team";
-import { runGameSimulation } from "../simulation/runGameSim";
+import { runGameSimulation } from "./simulation/runGameSim";
+import { Team } from "./domain/Team";
+
 
 
 const mockTeam = (id: number, name: string): Team => ({

@@ -1,5 +1,5 @@
-import { GameState } from "../../domain/GameStates";
-import { OffensiveAction } from "../actions/ChooseActions";
+import { GameState } from "../../domain/GameState";
+import { OffensiveAction } from "../actions/chooseActions";
 import { SeededRNG } from "../rng/SeedRNG";
 import { SHOT_TYPES, RATING_SCALE, POINTS, REBOUND } from "../../config/constants";
 import { Rating } from "../../domain/Ratings";
