@@ -65,7 +65,7 @@ h1 {
 
 .score-card,
 .quarter-card,
-.box-score-card {
+.boxscore-card {
     background-color: #16213e;
     border-radius: 12px;
     padding: 24px;
@@ -112,7 +112,7 @@ h3 {
 }
 
 .quarter-table,
-.box-score-table {
+.boxscore-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
@@ -120,18 +120,19 @@ h3 {
 
 .quarter-table th,
 .quarter-table td,
-.box-score-table th,
-.box-score-table td {
+.boxscore-table th,
+.boxscore-table td {
     padding: 10px 12px;
     text-align: center;
     border-bottom: 1px solid #0f3460;
 }
 
 .quarter-table th,
-.box-score-table th {
+.boxscore-table th {
     color: #a0a0b0;
     font-weight: normal;
     font-size: 0.8rem;
+    padding: 10px 12px;
     text-transform: uppercase;
 }
 
@@ -141,4 +142,27 @@ h3 {
 
 .boxscore-table tr:hover {
     background-color: #0f3460;
+}
+
+.winner {
+    text-align: center;
+    font-size: 1.3rem;
+    color: #e94560;
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+.winning-score {
+    color: #e94560
+}
+
+.totals-row {
+    background-color: #0f3460;
+    font-weight: bold;
+    border-top: 2px solid #e94560;
+}
+
+.totals-row td {
+    color: #ffffff;
+    padding: 12px 14px;
 }

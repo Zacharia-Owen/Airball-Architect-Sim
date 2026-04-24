@@ -10,6 +10,7 @@ function App() {
     const simulateGame = async () => {
         setLoading(true);
         setError(null);
+        setResult(null);
 
         try {
             const response = await fetch('/games/simulate', {
@@ -31,6 +32,26 @@ function App() {
         }
     };
 
+    const calculateTeamTotals = (teamId: number) => {
+        const players = Object.values(result!.boxScore).filter(
+            P => P.teamId === teamId
+        )
+        return {
+            points: players.reduce((sum, p) => sum + p.points, 0),
+            rebounds: players.reduce((sum, p) => sum + p.rebounds, 0),
+            assists: players.reduce((sum, p) => sum + p.assists, 0),
+            steals: players.reduce((sum, p) => sum + p.steals, 0),
+            blocks: players.reduce((sum, p) => sum + p.blocks, 0),
+            turnovers: players.reduce((sum, p) => sum + p.turnovers, 0),
+            fieldGoalsMade: players.reduce((sum, p) => sum + p.fieldGoalsMade, 0),
+            fieldGoalsAttempted: players.reduce((sum, p) => sum + p.fieldGoalsAttempted, 0),
+            threePointersMade: players.reduce((sum, p) => sum + p.threePointersMade, 0),
+            threePointersAttempted: players.reduce((sum, p) => sum + p.threePointersAttempted, 0),
+            freeThrowsMade: players.reduce((sum, p) => sum + p.freeThrowsMade, 0),
+            freeThrowsAttempted: players.reduce((sum, p) => sum + p.freeThrowsAttempted, 0),
+        }
+    };
+
     return (
         <div className="App">
             <h1>Airball Architect</h1>
@@ -41,7 +62,7 @@ function App() {
                 onClick={simulateGame}
                 disabled={loading}
             >
-                {loading ? 'Simulating...' : 'Simulate Game'}
+                {loading ? 'Simulating...' : result ? 'Simulate Again' : 'Simulate Game'}
             </button>
 
             {error && (
@@ -57,13 +78,24 @@ function App() {
                         <div className="score">
                             <div className="team">
                                 <p className="team-name">{result.homeTeam.name}</p>
-                                <p className="team-score">{result.finalScore.home}</p>
+                                <p className={`team-score ${result.finalScore.home > result.finalScore.away ? 'winning-score' : ''}`}>
+                                    {result.finalScore.home}
+                                </p>
                             </div>
                             <p className="vs">VS</p>
                             <div className="team">
                                 <p className="team-name">{result.awayTeam.name}</p>
-                                <p className="team-score">{result.finalScore.away}</p>
+                                <p className={`team-score ${result.finalScore.away > result.finalScore.home ? 'winning-score' : ''}`}>
+                                    {result.finalScore.away}
+                                </p>
                             </div>
+                            <p className="Winner">
+                                {result.finalScore.home > result.finalScore.away
+                                    ? `${result.homeTeam.name} Win!`
+                                    : result.finalScore.away > result.finalScore.home
+                                    ? `${result.awayTeam.name} Win!`
+                                    : "It's a Tie!"}
+                            </p>
                         </div>
                     </div>
 
@@ -117,6 +149,7 @@ function App() {
                                     <th>BLK</th>
                                     <th>TO</th>
                                     <th>FG</th>
+                                    <th>FG%</th>
                                     <th>3PT</th>
                                     <th>FT</th>
                                 </tr>
@@ -124,6 +157,7 @@ function App() {
                             <tbody>
                                 {Object.values(result.boxScore)
                                     .filter(p => p.teamId === result.homeTeam.id)
+                                    .sort((a, b) => b.points - a.points) // sorting players by points scored
                                     .map(player => (
                                         <tr key={player.playerId}>
                                             <td>{player.firstName} {player.lastName}</td>
@@ -135,11 +169,40 @@ function App() {
                                             <td>{player.blocks}</td>
                                             <td>{player.turnovers}</td>
                                             <td>{player.fieldGoalsMade}/{player.fieldGoalsAttempted}</td>
+                                            <td>{player.fieldGoalsMade > 0
+                                                ? ((player.fieldGoalsMade / player.fieldGoalsAttempted) * 100).toFixed(1) + '%'
+                                                : '0%'}
+                                            </td>
                                             <td>{player.threePointersMade}/{player.threePointersAttempted}</td>
                                             <td>{player.freeThrowsMade}/{player.freeThrowsAttempted}</td>
                                         </tr>
                                     ))}
                             </tbody>
+                            <tfoot>
+                            {(() => {
+                                const totals = calculateTeamTotals(result.homeTeam.id);
+                                return (
+                                    <tr className="totals-row">
+                                        <td>Team Totals</td>
+                                        <td>-</td>
+                                        <td>{totals.points}</td>
+                                        <td>{totals.rebounds}</td>
+                                        <td>{totals.assists}</td>
+                                        <td>{totals.steals}</td>
+                                        <td>{totals.blocks}</td>
+                                        <td>{totals.turnovers}</td>
+                                        <td>{totals.fieldGoalsMade}/{totals.fieldGoalsAttempted}</td>
+                                        <td>
+                                            {totals.fieldGoalsAttempted > 0
+                                                ? ((totals.fieldGoalsMade / totals.fieldGoalsAttempted) * 100).toFixed(1) + '%'
+                                                : '0%'}
+                                        </td>
+                                        <td>{totals.threePointersMade}/{totals.threePointersAttempted}</td>
+                                        <td>{totals.freeThrowsMade}/{totals.freeThrowsAttempted}</td>
+                                    </tr>
+                                );
+                            })()}
+                            </tfoot>
                         </table>
 
                         {/* Away Team */}
@@ -156,6 +219,7 @@ function App() {
                                     <th>BLK</th>
                                     <th>TO</th>
                                     <th>FG</th>
+                                    <th>FG%</th>
                                     <th>3PT</th>
                                     <th>FT</th>
                                 </tr>
@@ -163,6 +227,7 @@ function App() {
                             <tbody>
                                 {Object.values(result.boxScore)
                                     .filter(p => p.teamId === result.awayTeam.id)
+                                    .sort((a, b) => b.points - a.points)
                                     .map(player => (
                                         <tr key={player.playerId}>
                                             <td>{player.firstName} {player.lastName}</td>
@@ -174,11 +239,40 @@ function App() {
                                             <td>{player.blocks}</td>
                                             <td>{player.turnovers}</td>
                                             <td>{player.fieldGoalsMade}/{player.fieldGoalsAttempted}</td>
+                                            <td>{player.fieldGoalsMade > 0
+                                                ? ((player.fieldGoalsMade / player.fieldGoalsAttempted) * 100).toFixed(1) + '%'
+                                                : '0%'}
+                                            </td>
                                             <td>{player.threePointersMade}/{player.threePointersAttempted}</td>
                                             <td>{player.freeThrowsMade}/{player.freeThrowsAttempted}</td>
                                         </tr>
                                     ))}
                             </tbody>
+                            <tfoot>
+                            {(() => {
+                                const totals = calculateTeamTotals(result.awayTeam.id);
+                                return (
+                                    <tr className="totals-row">
+                                        <td>Team Totals</td>
+                                        <td>-</td>
+                                        <td>{totals.points}</td>
+                                        <td>{totals.rebounds}</td>
+                                        <td>{totals.assists}</td>
+                                        <td>{totals.steals}</td>
+                                        <td>{totals.blocks}</td>
+                                        <td>{totals.turnovers}</td>
+                                        <td>{totals.fieldGoalsMade}/{totals.fieldGoalsAttempted}</td>
+                                        <td>
+                                            {totals.fieldGoalsAttempted > 0
+                                                ? ((totals.fieldGoalsMade / totals.fieldGoalsAttempted) * 100).toFixed(1) + '%'
+                                                : '0%'}
+                                        </td>
+                                        <td>{totals.threePointersMade}/{totals.threePointersAttempted}</td>
+                                        <td>{totals.freeThrowsMade}/{totals.freeThrowsAttempted}</td>
+                                    </tr>
+                                );
+                            })()}
+                        </tfoot>
                         </table>
                     </div>
                 </div>
