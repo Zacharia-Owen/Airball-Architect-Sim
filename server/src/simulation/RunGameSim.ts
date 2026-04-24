@@ -110,7 +110,7 @@ function buildInitialState(home: Team, away: Team): GameState {
 
 // Main sinmulation function
 export function runGameSimulation(home: Team, away: Team): GameState {
-    const rng = new SeededRNG(SIM.DEFAULT_SEED);
+    const rng = new SeededRNG(Date.now());
     let state = buildInitialState(home, away);
     let previousQuarter = 1;
     let quarterStartScore = { home: 0, away: 0 };
