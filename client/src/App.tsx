@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import Home from '.pages/Home';
+import Home from './pages/Home';
 import Teams from './pages/Teams';
 import Roster from './pages/Roster';
 
@@ -20,10 +20,9 @@ function App() {
 
                 <main>
                     <Routes>
-                        <Route path="/" element={Home />} />
-                        <Route path="/teams" element={Teams />} />
-                        <Route path="/teams/:teamId" element={Roster />} />
-
+                        <Route path="/" element={<Home />} />
+                        <Route path="/teams" element={<Teams />} />
+                        <Route path="/teams/:id" element={<Roster />} />
                     </Routes>
                 </main>
             </div>
@@ -31,4 +30,4 @@ function App() {
     )
 }
 
-export default App;
+export default App;//
