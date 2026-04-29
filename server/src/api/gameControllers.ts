@@ -86,7 +86,7 @@ export async function getGameResultController(req: Request, res: Response) {
 export async function getAllTeamsController(req: Request, res: Response){
     try {
         const teams = await getAllTeams();
-        res.json(teams);
+        res.json({ teams });
     }catch (error) {
         console.error ('Error fetching teams:', error);
         res.status(500).json({ error: "Failed to fetch teams" });
@@ -109,7 +109,7 @@ export async function getTeamRosterController(req: Request, res: Response){
             return;
         }
 
-        res.json(team);
+        res.json({ team });
     } catch (error) {
         console.error('Error fetching team roster:', error);
         res.status(500).json({ error: "Failed to fetch team roster" });
@@ -132,7 +132,7 @@ export async function getPlayerController(req: Request, res: Response){
             return;
         }
 
-        res.json(player);
+        res.json({ player });
 
     } catch (error) {
         console.error('Error fetching player:', error);
