@@ -1,7 +1,10 @@
 import { Router } from 'express';
-import { simulateGameController, getGameResultController, getAllTeamsController, getPlayerController, getTeamRosterController,} from './gameControllers';
+import { simulateGameController, getGameResultController, getAllTeamsController, getPlayerController, getTeamRosterController, createGameController,} from './gameControllers';
 
 const router = Router();
+
+// create game route
+router.post('/create', createGameController);
 
 // simulate game route
 router.post('/simulate', simulateGameController);

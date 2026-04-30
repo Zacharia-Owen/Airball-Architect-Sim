@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SimulationResult, BoxScoreEntry } from '../types';
 
+interface Team {
+    id: number;
+    name: string;
+}
 
 function Home() {
     const [result, setResult] = useState<SimulationResult | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [teams, setTeams] = useState<Team[]>([]);
+    const [homeTeamId, setHomeTeamId] = useState<number | null>(null);
+    const [awayTeamId, setAwayTeamId] = useState<number | null>(null);
+
+    useEffect(() => {
+        fetch('/games/teams')
+            .then(res => res.json())
+            .then(data => setTeams(data.teams))
+            .catch(() => setError('Failed to load teams'));
+    }, []);
 
     const simulateGame = async () => {
         setLoading(true);
@@ -13,20 +27,25 @@ function Home() {
         setResult(null);
 
         try {
-            const response = await fetch('/games/simulate', {
+            const gameResponse = await fetch('/games/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({gameId: 1}),
+                body: JSON.stringify({homeTeamId, awayTeamId}),
             });
 
-            if (!response.ok) {
-                throw new Error('Simulation Failed')
-            }
+            if (!gameResponse.ok) throw new Error('Failed to create game');
+            const gameData = await gameResponse.json();
 
-            const data = await response.json();
+            const  simResponse = await fetch('/games/simulate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({gameId: gameData.gameId}),
+            });
+            if (!simResponse.ok) throw new Error('Simulation has failed');
+            const data = await simResponse.json();
             setResult(data);
-        } catch (err){
-            setError('Failed to simulate game.')
+        } catch (err) {
+            setError('Failed to simulate game.');
         } finally {
             setLoading(false);
         }
@@ -67,6 +86,39 @@ function Home() {
 
     return (
         <div>
+        {/* Select a Team */}
+        <div className="team-selection">
+            <div className="team-select-group">
+                <label>Home Team</label>
+                <select
+                    className="team-select"
+                    value={homeTeamId ?? ''}
+                    onChange={e => setHomeTeamId(Number(e.target.value))}>
+                        <option value="">Select a Team</option>
+                        {teams.map(team => (
+                            <option key={team.id} value={team.id}>
+                                {team.name}
+                            </option>
+                        ))}
+                </select>
+            </div>
+            <p  className="vs">VS</p>
+            
+            <div className="team-select-group">
+                <label>Away Team</label>
+                <select
+                    className="team-select"
+                    value={awayTeamId ?? ''}
+                    onChange={e => setAwayTeamId(Number(e.target.value))}>
+                        <option value="">Select a Team</option>
+                        {teams.map(team => (
+                            <option key={team.id} value={team.id}>
+                                {team.name}
+                            </option>
+                        ))}
+                </select>
+            </div>
+        </div>
             <button
             className="simulate-btn"
             onClick={simulateGame}

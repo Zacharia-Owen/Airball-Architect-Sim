@@ -4,6 +4,17 @@ import { Team } from "../domain/Team";
 import { Player } from "../domain/Player";
 import { Rating } from "../domain/Ratings";
 
+
+export async function createGame(homeTeamId: number, awayTeamId: number): Promise<Game> {
+  const result = await pool.query(
+    `INSERT INTO games (home_team_id, away_team_id, scheduled_at, is_simulated)
+    VALUES ($1, $2, NOW(), false)
+    RETURNING id`, [homeTeamId, awayTeamId]
+  );
+  return result.rows[0].id;
+}
+
+
 // fetching a game by ID
 export async function getGameById(gameId: number): Promise<Game | null> {
     const result = await pool.query(
