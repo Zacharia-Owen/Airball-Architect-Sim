@@ -1,6 +1,30 @@
 import { Request, Response } from 'express';
 import { runGameSimulation } from "../simulation/runGameSim"
-import { getGameById, getGameResult, getAllTeams, getPlayerById, getTeamWithPlayers, saveGameResult } from "../db/gameRepository";
+import { getGameById, getGameResult, getAllTeams, getPlayerById, getTeamWithPlayers, saveGameResult, createGame } from "../db/gameRepository";
+
+
+export async function createGameController(req: Request, res: Response) {
+    try {
+        const { homeTeamId, awayTeamId } = req.body;
+
+        if (!homeTeamId || !awayTeamId) {
+            res.status(400).json({ error: "Both Team IDs are required" });
+            return;
+        }
+
+        if (homeTeamId === awayTeamId) {
+            res.status(400).json({ error: "Home and Away teams must be different" });
+            return;
+        }
+
+        const gameId = await createGame(homeTeamId, awayTeamId);
+        res.json({ gameId });
+    } catch (error) {
+        console.error('Error creating game:', error);
+        res.status(500).json({ error: "Failed to create game" });
+    }
+}
+
 
 export async function simulateGameController(req: Request, res: Response) {
     try {
@@ -86,7 +110,7 @@ export async function getGameResultController(req: Request, res: Response) {
 export async function getAllTeamsController(req: Request, res: Response){
     try {
         const teams = await getAllTeams();
-        res.json(teams);
+        res.json({ teams });
     }catch (error) {
         console.error ('Error fetching teams:', error);
         res.status(500).json({ error: "Failed to fetch teams" });
@@ -109,7 +133,7 @@ export async function getTeamRosterController(req: Request, res: Response){
             return;
         }
 
-        res.json(team);
+        res.json({ team });
     } catch (error) {
         console.error('Error fetching team roster:', error);
         res.status(500).json({ error: "Failed to fetch team roster" });
@@ -132,7 +156,7 @@ export async function getPlayerController(req: Request, res: Response){
             return;
         }
 
-        res.json(player);
+        res.json({ player });
 
     } catch (error) {
         console.error('Error fetching player:', error);
