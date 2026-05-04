@@ -285,3 +285,101 @@ h3 {
     outline: none;
     border-color: #e94560;
 }
+
+
+.player-profile {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #16213e;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.player-info h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.player-position {
+    color: #a0a0b0;
+    font-size: 1rem;
+}
+
+.overall-badge {
+    text-align: center;
+    background-color: #e94560;
+    border-radius: 12px;
+    padding: 16px 24px;
+}
+
+.overall-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 4px;
+}
+
+.overall-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.ratings-card {
+    background-color: #16213e;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.ratings-card h3 {
+    color: #e94560;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.ratings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.rating-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rating-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #a0a0b0;
+}
+
+.rating-bar-track {
+    height: 8px;
+    background-color: #0f3460;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rating-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.player-link {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.player-link:hover {
+    color: #e94560;
+}
