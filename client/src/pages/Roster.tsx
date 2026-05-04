@@ -75,7 +75,11 @@ function Roster() {
                     .sort((a, b) => b.ratings.overall - a.ratings.overall)
                     .map(player => (
                         <tr key={player.id}>
-                            <td>{player.firstName} {player.lastName}</td>
+                            <td>
+                                <Link to={`/players/${player.id}`} className="player-link">
+                                    {player.firstName} {player.lastName}
+                                </Link>
+                            </td>
                             <td>{player.position}</td>
                             <td className="overall-rating">{player.ratings.overall}</td>
                             <td>{player.ratings.shooting}</td>

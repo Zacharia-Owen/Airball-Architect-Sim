@@ -4,6 +4,7 @@ import './App.css';
 import Home from './pages/Home';
 import Teams from './pages/Teams';
 import Roster from './pages/Roster';
+import Player from './pages/Player';
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/teams" element={<Teams />} />
                         <Route path="/teams/:id" element={<Roster />} />
+                        <Route path="/players/:id" element={<Player />} />
                     </Routes>
                 </main>
             </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SimulationResult, BoxScoreEntry } from '../types';
+import { Link } from 'react-router';
 
 interface Team {
     id: number;
@@ -222,7 +223,11 @@ function Home() {
                                         .sort((a, b) => b.points - a.points)
                                         .map(player => (
                                             <tr key={player.playerId}>
-                                                <td>{player.firstName} {player.lastName}</td>
+                                                <td>
+                                                    <Link to={`/players/${player.playerId}`} className="player-link">
+                                                        {player.firstName} {player.lastName}
+                                                    </Link>
+                                                </td>
                                                 <td>{player.position}</td>
                                                 <td>{player.points}</td>
                                                 <td>{player.rebounds}</td>
