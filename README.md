@@ -1,5 +1,16 @@
 ## Getting Started
 
+## Screenshot
+
+### Game Simulation
+![Game Simulation](./screenshots/simulation.png)
+
+### Player Profile
+![Player Profile](./screenshots/player.png)
+
+### Team Roster
+![Team Roster](./screenshots/roster.png)
+
 ### Prerequisites
 
 - Node.js 18+
@@ -33,6 +44,7 @@ DB_PASSWORD=yourpassword
 
 
 **4. Create the database:**
+
 ```bash
 psql -U postgres
 ```
@@ -42,6 +54,7 @@ CREATE DATABASE airball_architect_sim;
 ```
 
 **5. Run migrations:**
+
 ```bash
 psql -U postgres -d airball_architect_sim -f migrations/001_create_teams.sql
 psql -U postgres -d airball_architect_sim -f migrations/002_create_players.sql
